@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os, platform
+import time
 if platform.system() == "Linux" or platform.system() == "Darwin":
     os.environ["KIVY_VIDEO"] = "ffpyplayer"
 
@@ -36,8 +37,8 @@ class ReactiveRobot(Robot):
         if min(self.ir_values) < HIT_DISTANCE:
             print("HIT - backing off.")
             self.state = "hit"
-            self.move(-15)
-            self.turn(45)
+            self.move(-20)
+            self.turn(60)
             return
 
         if self.target is None:
@@ -51,10 +52,12 @@ class ReactiveRobot(Robot):
 
         if front < SAFETY_DISTANCE:
             if left > right:
+                self.state = "searching"
                 print("Front near, more room left -> turn left.")
                 self.turn(-60)
                 self.move(8)
             else:
+                self.state = "searching"
                 print("Front near, more room right -> turn right.")
                 self.turn(60)
                 self.move(8)
@@ -91,24 +94,28 @@ class ReactiveRobot(Robot):
             return
 
         if front_right < SAFETY_DISTANCE and front_left > front_right:
+            self.state = "avoidance"
             print("Obstacle front-right -> steer left.")
             self.turn(-45)
             self.move(10)
             return
 
         if front_left < SAFETY_DISTANCE and front_right > front_left:
+            self.state = "avoidance"
             print("Obstacle front-left -> steer right.")
             self.turn(45)
             self.move(10)
             return
         
         if right < CLOSED_DISTANCE and left > right:
+            self.state = "avoidance"
             print("Right wall near -> nudge left.")
             self.turn(-23)
             self.move(6.7)
             return
 
         if left < CLOSED_DISTANCE and right > left:
+            self.state = "avoidance"
             print("Left wall near -> nudge right.")
             self.turn(23)
             self.move(6.7)
