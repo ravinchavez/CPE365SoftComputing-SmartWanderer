@@ -15,8 +15,6 @@ LIMITATIONS
 
 Since the robot is purely reactive, it struggles with planning.For example, if an item is behind the wall or across a section, it might struggle to react since there is no prediction element in the algorithm. At that point, the robot will get completely stuck. 
 
-PS: The 5-second delay before the Kivy App instantiates are setup to open the logs during filming.
-
 ## Video
 
 ## Documentation
